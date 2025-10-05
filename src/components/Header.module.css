@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 40px;
+    gap: 15px;
+    /* sombra */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.icon {
+    width: 35px;
+    height: 35px;
+}
+
+@media (max-width: 1000px) {
+    .header{
+        padding-left: 16px;
+    }
+}

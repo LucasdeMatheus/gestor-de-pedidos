@@ -1,0 +1,136 @@
+.sidebar {
+  width: 16rem;
+  background-color: #F0F1FF;
+  border-right: 1px solid #e5e7eb;
+  padding: 16px;
+  height: 100%;
+  /* ocupa todo o body */
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  /* sem scroll */
+  height: auto;
+}
+
+
+
+
+
+
+.section {
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 20px;
+  color: #000000;
+  /* gray-700 */
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  color: #4b5563;
+  /* gray-600 */
+  margin-bottom: 4px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  color: #4b5563;
+  /* gray-600 */
+  margin-bottom: 8px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Oculta input nativo */
+.label input {
+  position: absolute;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Checkbox custom */
+.customCheckbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #5664F5;
+  border-radius: 4px;
+  background-color: transparent;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.label input[type="checkbox"]:checked+.customCheckbox {
+  background-color: #5664F5;
+  border-color: #5664F5;
+}
+
+.label input[type="checkbox"]:checked+.customCheckbox::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Radio custom */
+.customRadio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #5664F5;
+  border-radius: 50%;
+  background-color: transparent;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.label input[type="radio"]:checked+.customRadio {
+  background-color: #5664F5;
+  border-color: #5664F5;
+}
+
+.label input[type="radio"]:checked+.customRadio::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+
+@media (max-width: 1000px) {
+  .sidebar {
+    width: 100%;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .section {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 15px;
+  }
+  
+}

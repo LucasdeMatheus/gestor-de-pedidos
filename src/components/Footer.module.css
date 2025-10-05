@@ -1,0 +1,22 @@
+.footer {
+  background-color: #F0F1FF; /* cinza escuro */
+  color: #000000; /* quase branco */
+  padding: 46px 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+    justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.copy {
+  font-size: 14px;
+}
+
