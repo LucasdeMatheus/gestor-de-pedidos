@@ -2,22 +2,31 @@ import { useState } from "react";
 import styles from "./OrderCard.module.css";
 
 export default function OrderCard({ order }) {
+  // ✅ Renderiza apenas se o status for "aberto" ou "finalizado"
+  if (!["aberto", "finalizado"].includes(order.status)) return null;
+
   const [showDetails, setShowDetails] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(order.status);
 
-  // Parse da forma de pagamento se existir
+  // ✅ Forma de pagamento (pode vir objeto ou string JSON)
   let pagamento = null;
   try {
-    pagamento = order.forma_de_pagamento ? JSON.parse(order.forma_de_pagamento) : null;
-  } catch (err) {
+    pagamento =
+      typeof order.forma_de_pagamento === "string"
+        ? JSON.parse(order.forma_de_pagamento)
+        : order.forma_de_pagamento ?? null;
+  } catch {
     pagamento = null;
   }
+
+  // ✅ Endereço (já é objeto)
+  const endereco = order.endereco ?? null;
 
   const fecharPedido = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:4000/fechar-pedido", {
+      const response = await fetch("https://lucas-n8n.hooks.n8n.cloud/webhook-test/fechar-pedido", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: order.id, wa_id: order.wa_id }),
@@ -37,20 +46,20 @@ export default function OrderCard({ order }) {
   };
 
   const visualizarPedido = () => {
-    // Monta o HTML do pedido apenas com as informações essenciais
+    // Monta o HTML do pedido para impressão
     const itensHTML = (order.pedido?.itens ?? [])
       .map(
-        (item) =>
-          `<div class="item">${item.quantidade}x ${item.produto} - R$${item.valor_unitario.toFixed(
-            2
-          )}</div>`
+        (item) => `
+          <div class="item">
+            ${item.quantidade}x ${item.produto} - R$${item.valor_unitario.toFixed(2)}
+          </div>
+        `
       )
       .join("");
 
-    const endereco = order.endereco ?? "Localização não informada";
     const metodoPagamento = pagamento?.metodo ?? "—";
     const troco =
-      pagamento?.metodo === "dinheiro" && pagamento?.troco
+      metodoPagamento === "dinheiro" && pagamento?.troco
         ? ` (Troco: R$${pagamento.troco.toFixed(2)})`
         : "";
 
@@ -74,7 +83,10 @@ export default function OrderCard({ order }) {
           ${itensHTML}
           <hr>
           <h3>Endereço:</h3>
-          <p>${endereco}</p>
+          <p>
+            ${endereco?.localizacao ?? "Localização não informada"}<br>
+            <small>${endereco?.complemento ?? ""}</small>
+          </p>
           <hr>
           <p><b>Valor Total:</b> R$${order.valor_pedido?.toFixed(2) ?? "—"}</p>
         </body>
@@ -86,6 +98,8 @@ export default function OrderCard({ order }) {
     printWindow.document.close();
     printWindow.focus();
   };
+
+  console.log(order);
 
   return (
     <>
@@ -127,7 +141,10 @@ export default function OrderCard({ order }) {
             </ul>
 
             <h3>Endereço:</h3>
-            <p>{order.endereco ?? "Localização não informada"}</p>
+            <p>
+              {endereco?.localizacao ?? "Localização não informada"}<br />
+              {endereco?.complemento ?? ""}
+            </p>
 
             <p><b>Valor Total:</b> R${order.valor_pedido?.toFixed(2) ?? "—"}</p>
 
