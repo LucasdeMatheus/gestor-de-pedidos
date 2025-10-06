@@ -88,11 +88,16 @@ export default function Orders() {
         timeMatch = updatedAt.toDateString() === now.toDateString();
       } else if (filters.time === "semana") {
         const weekStart = new Date(now);
-        weekStart.setDate(now.getDate() - now.getDay()); // domingo
+        weekStart.setHours(0, 0, 0, 0);
+        weekStart.setDate(now.getDate() - now.getDay()); // domingo (0)
+
         const weekEnd = new Date(weekStart);
         weekEnd.setDate(weekStart.getDate() + 6); // sábado
+        weekEnd.setHours(23, 59, 59, 999);
+
         timeMatch = updatedAt >= weekStart && updatedAt <= weekEnd;
-      } else if (filters.time === "mes") {
+      }
+      else if (filters.time === "mes") {
         timeMatch =
           updatedAt.getMonth() === now.getMonth() &&
           updatedAt.getFullYear() === now.getFullYear();

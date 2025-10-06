@@ -26,7 +26,7 @@ export default function OrderCard({ order }) {
   const fecharPedido = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://lucas-n8n.hooks.n8n.cloud/webhook-test/fechar-pedido", {
+      const response = await fetch("https://lucas-n8n.hooks.n8n.cloud/webhook/fechar-pedido", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: order.id, wa_id: order.wa_id }),
@@ -99,7 +99,6 @@ export default function OrderCard({ order }) {
     printWindow.focus();
   };
 
-  console.log(order);
 
   return (
     <>
